@@ -53,6 +53,7 @@ class ExtractRdsStep(ETLStep):
         host = MYSQL_CONFIG[host_name]['HOST']
         user = MYSQL_CONFIG[host_name]['USERNAME']
         password = MYSQL_CONFIG[host_name]['PASSWORD']
+        jdbcParams = MYSQL_CONFIG[host_name]['JDBC_PARAMS']
 
         input_node = self.create_pipeline_object(
             object_class=MysqlNode,
@@ -62,6 +63,7 @@ class ExtractRdsStep(ETLStep):
             table=table,
             username=user,
             password=password,
+            jdbcParams=jdbcParams,
             sql=sql,
         )
 

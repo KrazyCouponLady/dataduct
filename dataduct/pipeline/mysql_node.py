@@ -12,7 +12,7 @@ class MysqlNode(PipelineObject):
     """
 
     def __init__(self, id, schedule, host, database, username, password, sql,
-                 table, depends_on=None):
+                 table, jdbcParams, depends_on=None):
         """Constructor for the MysqlNode class
 
         Args:
@@ -24,6 +24,7 @@ class MysqlNode(PipelineObject):
             password(str): password for the database
             sql(str): sql to be executed
             table(str): table to be read
+            jdbcParams(str): JDBC connection params [?propertyName1=propertyValue1[&propertyName2=propertyValue2]...] https://dev.mysql.com/doc/connector-j/en/connector-j-reference-configuration-properties.html
         """
 
         # Validate inputs
@@ -34,7 +35,7 @@ class MysqlNode(PipelineObject):
         if not depends_on:
             depends_on = list()
 
-        connection_string = "jdbc:mysql://" + host + ":3306/" + database
+        connection_string = "jdbc:mysql://" + host + ":3306/" + database + jdbcParams
 
         kwargs = {
             'id': id,

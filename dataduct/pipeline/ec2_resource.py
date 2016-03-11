@@ -14,6 +14,7 @@ ROLE = config.etl['ROLE']
 RESOURCE_ROLE = config.etl['RESOURCE_ROLE']
 
 INSTANCE_TYPE = config.ec2.get('INSTANCE_TYPE', const.M1_LARGE)
+TERMINATE_AFTER = config.ec2.get('TERMINATE_AFTER', const.TWO_HOURS)
 ETL_AMI = config.ec2.get('ETL_AMI', const.NONE)
 SECURITY_GROUP = config.ec2.get('SECURITY_GROUP', const.NONE)
 SECURITY_GROUP_ID = config.ec2.get('SECURITY_GROUP_ID', const.NONE)
@@ -30,7 +31,7 @@ class Ec2Resource(PipelineObject):
                  id,
                  s3_log_dir=None,
                  schedule=None,
-                 terminate_after='6 Hours',
+                 terminate_after=TERMINATE_AFTER,
                  instance_type=INSTANCE_TYPE,
                  ami=ETL_AMI,
                  security_group=SECURITY_GROUP,

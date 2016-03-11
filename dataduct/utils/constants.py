@@ -14,6 +14,7 @@ DEFAULT_TIMEOUT = '6 Hours'
 EMR_CLUSTER_STR = 'emr'
 EC2_RESOURCE_STR = 'ec2'
 M1_LARGE = 'm1.large'
+TWO_HOURS = '2 Hours'
 
 LOG_STR = 'logs'
 DATA_STR = 'data'
