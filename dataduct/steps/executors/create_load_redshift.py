@@ -119,10 +119,14 @@ def create_load_redshift_runner():
             error_string = (
                 "Table schema mismatch: {table}\n"
                 "Columns for new table: {columns}\n"
-                "Columns for existing table: {redshift_table_columns}").format(
+                "Columns for existing table: {redshift_table_columns}\n"
+                "script_arguments.table_definition: {table_definition}"
+            ).format(
                     table=table.full_name,
                     columns=", ".join(columns),
-                    redshift_table_columns=", ".join(redshift_table_columns))
+                    redshift_table_columns=", ".join(redshift_table_columns),
+                    table_definition=script_arguments.table_definition
+            )
             raise Exception(error_string)
 
     # Load data into redshift
