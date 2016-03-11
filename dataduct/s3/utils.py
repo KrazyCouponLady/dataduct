@@ -42,6 +42,8 @@ def read_from_s3(s3_path):
     bucket = get_s3_bucket(s3_path.bucket)
     key = bucket.get_key(s3_path.key)
 
+    print "Reading from s3 key: ", key
+
     return key.get_contents_as_string()
 
 
