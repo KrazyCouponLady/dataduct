@@ -115,19 +115,33 @@ def create_load_redshift_runner():
             [column.column_name.lower() for column in table.columns()])
         redshift_table_columns = get_redshift_table_colunms(table, cursor)
 
-        if columns != redshift_table_columns:
-            error_string = (
-                "Table schema mismatch: {table}\n"
-                "Columns for new table: {columns}\n"
-                "Columns for existing table: {redshift_table_columns}\n"
-                "script_arguments.table_definition: {table_definition}"
-            ).format(
-                    table=table.full_name,
-                    columns=", ".join(columns),
-                    redshift_table_columns=", ".join(redshift_table_columns),
-                    table_definition=script_arguments.table_definition
-            )
-            raise Exception(error_string)
+        table_debug = (
+            "Table schema mismatch: {table}\n"
+            "Columns for new table: {columns}\n"
+            "Columns for existing table: {redshift_table_columns}\n"
+            "script_arguments.table_definition: {table_definition}"
+        ).format(
+                table=table.full_name,
+                columns=", ".join(columns),
+                redshift_table_columns=", ".join(redshift_table_columns),
+                table_definition=script_arguments.table_definition
+        )
+
+        print table_debug
+
+        # if columns != redshift_table_columns:
+        #     error_string = (
+        #         "Table schema mismatch: {table}\n"
+        #         "Columns for new table: {columns}\n"
+        #         "Columns for existing table: {redshift_table_columns}\n"
+        #         "script_arguments.table_definition: {table_definition}"
+        #     ).format(
+        #             table=table.full_name,
+        #             columns=", ".join(columns),
+        #             redshift_table_columns=", ".join(redshift_table_columns),
+        #             table_definition=script_arguments.table_definition
+        #     )
+        #     raise Exception(error_string)
 
     # Load data into redshift
     load_query = load_redshift(
