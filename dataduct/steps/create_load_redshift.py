@@ -37,8 +37,8 @@ class CreateAndLoadStep(TransformStep):
             script_arguments = list()
 
         script_arguments.extend([
-            '--s3_input_paths'] + input_paths,
-            '--table_definition=%s' % table.sql().sql()
+            '--s3_input_paths=%s' % ','.join(input_paths),
+            '--table_definition=%s' % table.sql().sql()]
         )
 
         super(CreateAndLoadStep, self).__init__(
