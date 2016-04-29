@@ -55,6 +55,8 @@ def load_redshift(table, input_paths, max_error=0,
                                     options=command_options)
         query.append(statement)
 
+        print 'load_redshift statement %s' % statement
+
     return ' '.join(query)
 
 
