@@ -27,7 +27,7 @@ class ExtractS3Step(ETLStep):
         super(ExtractS3Step, self).__init__(**kwargs)
 
         if date_directory_uri:
-            date_part = "{:%Y/%m/%d}".format(datetime.now())
+            date_part = "{:%Y/%m/}".format(datetime.now())
             date_directory_uri = date_directory_uri + date_part
             date_directory_uri = get_modified_s3_path(date_directory_uri)
             s3_path = S3Path(uri=date_directory_uri, is_directory=True)
