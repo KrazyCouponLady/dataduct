@@ -6,13 +6,14 @@ from ..utils.exceptions import ETLInputError
 from ..utils.helpers import exactly_one
 from ..utils.helpers import get_modified_s3_path
 from .etl_step import ETLStep
+from datetime import datetime
 
 
 class ExtractS3Step(ETLStep):
     """ExtractS3 Step class that helps get data from S3
     """
 
-    def __init__(self, directory_uri=None, file_uri=None, **kwargs):
+    def __init__(self, directory_uri=None, file_uri=None, date_directory_uri=None, **kwargs):
         """Constructor for the ExtractS3Step class
 
         Args:
@@ -20,12 +21,18 @@ class ExtractS3Step(ETLStep):
             file_uri(str): s3 path for s3 data file
             **kwargs(optional): Keyword arguments directly passed to base class
         """
-        if not exactly_one(directory_uri, file_uri):
+        if not exactly_one(directory_uri, file_uri, date_directory_uri):
             raise ETLInputError('One of file_uri or directory_uri needed')
 
         super(ExtractS3Step, self).__init__(**kwargs)
 
-        if directory_uri:
+        if date_directory_uri:
+            date_part = "{:%Y/%m/%d}".format(datetime.now())
+            date_directory_uri = date_directory_uri + date_part
+            date_directory_uri = get_modified_s3_path(date_directory_uri)
+            s3_path = S3Path(uri=date_directory_uri, is_directory=True)
+
+        elif directory_uri:
             directory_uri = get_modified_s3_path(directory_uri)
             s3_path = S3Path(uri=directory_uri, is_directory=True)
         else:
