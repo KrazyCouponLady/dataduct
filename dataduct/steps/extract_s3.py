@@ -27,9 +27,7 @@ class ExtractS3Step(ETLStep):
         super(ExtractS3Step, self).__init__(**kwargs)
 
         today = "{:%Y/%m/%d}".format(datetime.now())
-        yesterday = "{:%Y/%m/%d}".format(datetime.now() - 1)
-
-        #TODO replace {today} and {yesterday} in directory_uri and file_uri (if present)
+        yesterday = "{:%Y/%m/%d}".format(datetime.now() - timedelta(1))
 
         if directory_uri:
 
