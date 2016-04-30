@@ -6,7 +6,7 @@ from ..utils.exceptions import ETLInputError
 from ..utils.helpers import exactly_one
 from ..utils.helpers import get_modified_s3_path
 from .etl_step import ETLStep
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class ExtractS3Step(ETLStep):
