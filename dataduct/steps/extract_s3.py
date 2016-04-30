@@ -13,7 +13,7 @@ class ExtractS3Step(ETLStep):
     """ExtractS3 Step class that helps get data from S3
     """
 
-    def __init__(self, directory_uri=None, file_uri=None, date_directory_uri=None, **kwargs):
+    def __init__(self, directory_uri=None, file_uri=None, **kwargs):
         """Constructor for the ExtractS3Step class
 
         Args:
@@ -21,21 +21,32 @@ class ExtractS3Step(ETLStep):
             file_uri(str): s3 path for s3 data file
             **kwargs(optional): Keyword arguments directly passed to base class
         """
-        if not exactly_one(directory_uri, file_uri, date_directory_uri):
+        if not exactly_one(directory_uri, file_uri):
             raise ETLInputError('One of file_uri or directory_uri needed')
 
         super(ExtractS3Step, self).__init__(**kwargs)
 
-        if date_directory_uri:
-            date_part = "{:%Y/%m/}".format(datetime.now())
-            date_directory_uri = date_directory_uri + date_part
-            date_directory_uri = get_modified_s3_path(date_directory_uri)
-            s3_path = S3Path(uri=date_directory_uri, is_directory=True)
+        today = "{:%Y/%m/%d}".format(datetime.now())
+        yesterday = "{:%Y/%m/%d}".format(datetime.now() - 1)
 
-        elif directory_uri:
+        #TODO replace {today} and {yesterday} in directory_uri and file_uri (if present)
+
+        if directory_uri:
+
+            directory_uri = (
+                directory_uri
+            ).format(today=today,
+                     yesterday=yesterday)
+
             directory_uri = get_modified_s3_path(directory_uri)
             s3_path = S3Path(uri=directory_uri, is_directory=True)
         else:
+
+            file_uri = (
+                file_uri
+            ).format(today=today,
+                     yesterday=yesterday)
+
             file_uri = get_modified_s3_path(file_uri)
             s3_path = S3Path(uri=file_uri)
         self._output = self.create_s3_data_node(s3_path)
