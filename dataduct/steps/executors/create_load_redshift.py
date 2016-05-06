@@ -102,20 +102,19 @@ def create_load_redshift_runner():
                         default=False)
     script_arguments = parser.parse_args()
 
-    #today = "{:%Y/%m/%d}".format(datetime.now())
-    #yesterday = "{:%Y/%m/%d}".format(datetime.now() - timedelta(1))
-    today = "2015/05/06"
-    yesterday = "2015/05/05"
+    today = "{:%Y/%m/%d}".format(datetime.now())
+    yesterday = "{:%Y/%m/%d}".format(datetime.now() - timedelta(1))
+    #today = "2015/05/06"
+    #yesterday = "2015/05/05"
 
     parsed_input_paths = []
 
-    print
-
     for s3_path in script_arguments.input_paths:
         print "Parsing s3_path %s" % s3_path
-        p = s3_path.format(today=today, yesterday=yesterday)
-        print "Parsed s3_path %s" % p
-        parsed_input_paths.append(p)
+        s3_path = s3_path.replace("_today_", today)
+        s3_path = s3_path.replace("_yesterday_", yesterday)
+        print "Parsed s3_path %s" % s3_path
+        parsed_input_paths.append(s3_path)
 
     print script_arguments
 
