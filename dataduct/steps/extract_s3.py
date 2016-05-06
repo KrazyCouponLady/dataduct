@@ -26,24 +26,24 @@ class ExtractS3Step(ETLStep):
 
         super(ExtractS3Step, self).__init__(**kwargs)
 
-        today = "{:%Y/%m/%d}".format(datetime.now())
-        yesterday = "{:%Y/%m/%d}".format(datetime.now() - timedelta(1))
+        #today = "{:%Y/%m/%d}".format(datetime.now())
+        #yesterday = "{:%Y/%m/%d}".format(datetime.now() - timedelta(1))
 
         if directory_uri:
 
-            directory_uri = (
-                directory_uri
-            ).format(today=today,
-                     yesterday=yesterday)
+            #directory_uri = (
+            #    directory_uri
+            #).format(today=today,
+            #         yesterday=yesterday)
 
             directory_uri = get_modified_s3_path(directory_uri)
             s3_path = S3Path(uri=directory_uri, is_directory=True)
         else:
 
-            file_uri = (
-                file_uri
-            ).format(today=today,
-                     yesterday=yesterday)
+            #file_uri = (
+            #    file_uri
+            #).format(today=today,
+            #         yesterday=yesterday)
 
             file_uri = get_modified_s3_path(file_uri)
             s3_path = S3Path(uri=file_uri)

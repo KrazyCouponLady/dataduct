@@ -11,6 +11,7 @@ from dataduct.database import SqlStatement
 from dataduct.database import Table
 from dataduct.utils.helpers import stringify_credentials
 from sys import stderr
+from datetime import datetime, timedelta
 
 
 def load_redshift(table, input_paths, max_error=0,
@@ -100,6 +101,12 @@ def create_load_redshift_runner():
     parser.add_argument('--force_drop_table', dest='force_drop_table',
                         default=False)
     script_arguments = parser.parse_args()
+
+    today = "{:%Y/%m/%d}".format(datetime.now())
+    yesterday = "{:%Y/%m/%d}".format(datetime.now() - timedelta(1))
+
+    script_arguments.input_paths = (script_arguments.input_paths).format(today=today, yesterday=yesterday)
+
     print script_arguments
 
     table = Table(SqlStatement(script_arguments.table_definition))
