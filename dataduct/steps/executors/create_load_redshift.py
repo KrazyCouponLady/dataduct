@@ -117,6 +117,8 @@ def create_load_redshift_runner():
 
     print script_arguments
 
+    exit(1)
+
     table = Table(SqlStatement(script_arguments.table_definition))
     connection = redshift_connection(
         cursor_factory=psycopg2.extras.RealDictCursor)
