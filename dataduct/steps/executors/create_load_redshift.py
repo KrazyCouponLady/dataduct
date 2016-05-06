@@ -104,8 +104,8 @@ def create_load_redshift_runner():
 
     #today = "{:%Y/%m/%d}".format(datetime.now())
     #yesterday = "{:%Y/%m/%d}".format(datetime.now() - timedelta(1))
-    today = "2015/05/06"
-    yesterday = "2015/05/05"
+    today = "2016/05/06"
+    yesterday = "2016/05/05"
 
     parsed_input_paths = []
 
