@@ -105,7 +105,10 @@ def create_load_redshift_runner():
     today = "{:%Y/%m/%d}".format(datetime.now())
     yesterday = "{:%Y/%m/%d}".format(datetime.now() - timedelta(1))
 
-    script_arguments.input_paths = (script_arguments.input_paths).format(today=today, yesterday=yesterday)
+    parsed_input_paths = []
+
+    for s3_path in script_arguments.input_paths:
+        parsed_input_paths.append(s3_path.format(today=today, yesterday=yesterday))
 
     print script_arguments
 
@@ -154,7 +157,7 @@ def create_load_redshift_runner():
 
     # Load data into redshift
     load_query = load_redshift(
-        table, script_arguments.input_paths, script_arguments.max_error,
+        table, parsed_input_paths, script_arguments.max_error,
         script_arguments.replace_invalid_char, script_arguments.no_escape,
         script_arguments.gzip, script_arguments.command_options)
     try:
@@ -162,7 +165,7 @@ def create_load_redshift_runner():
         cursor.execute('COMMIT')
     except Exception as error:
         error_query = create_error_retrieval_query(
-            script_arguments.input_paths)
+            parsed_input_paths)
         cursor.execute(error_query)
         separator = "-" * 50 + "\n"
 
