@@ -102,10 +102,10 @@ def create_load_redshift_runner():
                         default=False)
     script_arguments = parser.parse_args()
 
-    #today = "{:%Y/%m/%d}".format(datetime.now())
-    #yesterday = "{:%Y/%m/%d}".format(datetime.now() - timedelta(1))
-    today = "2016/05/06"
-    yesterday = "2016/05/05"
+    today = "{:%Y/%m/%d}".format(datetime.now())
+    yesterday = "{:%Y/%m/%d}".format(datetime.now() - timedelta(1))
+    #today = "2016/05/06"
+    #yesterday = "2016/05/05"
 
     parsed_input_paths = []
 
