@@ -108,7 +108,10 @@ def create_load_redshift_runner():
     parsed_input_paths = []
 
     for s3_path in script_arguments.input_paths:
-        parsed_input_paths.append(s3_path.format(today=today, yesterday=yesterday))
+        print "Parsing s3_path %s" % s3_path
+        p = s3_path.format(today=today, yesterday=yesterday)
+        print "Parsed s3_path %s" % p
+        parsed_input_paths.append(p)
 
     print script_arguments
 
