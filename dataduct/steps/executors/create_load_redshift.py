@@ -20,7 +20,7 @@ def load_redshift(table, input_paths, max_error=0,
     """Load redshift table with the data in the input s3 paths
     """
     table_name = table.full_name
-    print 'Loading data into %s' % table_name
+    print 'Loading data into %s from %s' % (table_name, '; '.join(input_paths))
 
     # Credentials string
     aws_key, aws_secret, token = get_aws_credentials()
@@ -106,6 +106,8 @@ def create_load_redshift_runner():
     yesterday = "{:%Y/%m/%d}".format(datetime.now() - timedelta(1))
 
     parsed_input_paths = []
+
+    print
 
     for s3_path in script_arguments.input_paths:
         print "Parsing s3_path %s" % s3_path
