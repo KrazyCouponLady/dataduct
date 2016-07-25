@@ -18,6 +18,12 @@ def comma_seperated(elements):
     return ','.join(elements)
 
 
+
+def comma_seperated_quoted(elements):
+    """Create a comma separated string from the iterator and quote the fucker
+    """
+    return ', '.join('"' + item + '"' for item in elements)
+
 class Table(Relation):
     """Class representing tables in the database
     """
@@ -289,7 +295,7 @@ class Table(Relation):
                     FROM {temp_table})
                 WHERE rnk = 1)
         """.format(table_name=self.full_name,
-                   column_names=comma_seperated(column_names),
+                   column_names=comma_seperated_quoted(column_names),
                    pk_names=comma_seperated(self.primary_key_names),
                    temp_table=temp_table.full_name)
 
