@@ -18,11 +18,11 @@ def comma_seperated(elements):
     return ','.join(elements)
 
 
-
 def comma_seperated_quoted(elements):
-    """Create a comma separated string from the iterator and quote the fucker
+    """Create a comma separated string from the iterator and quote the items
     """
     return ', '.join('"' + item + '"' for item in elements)
+
 
 class Table(Relation):
     """Class representing tables in the database
