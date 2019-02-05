@@ -22,6 +22,8 @@ def load_redshift(table, input_paths, max_error=0,
     table_name = table.full_name
     print 'Loading data into %s from %s' % (table_name, '; '.join(input_paths))
 
+    cols = ', '.join([col.column_name for col in table.columns()])
+
     # Credentials string
     aws_key, aws_secret, token = get_aws_credentials()
     creds = stringify_credentials(aws_key, aws_secret, token)
@@ -36,7 +38,7 @@ def load_redshift(table, input_paths, max_error=0,
     query = [delete_statement]
 
     template = (
-        "COPY {table} FROM '{path}' WITH CREDENTIALS AS '{creds}' "
+        "COPY {table} ({cols}) FROM '{path}' WITH CREDENTIALS AS '{creds}' "
         "COMPUPDATE OFF STATUPDATE OFF {options};"
     )
 
@@ -51,6 +53,7 @@ def load_redshift(table, input_paths, max_error=0,
                      invalid_char_str=invalid_char_str)
 
         statement = template.format(table=table_name,
+                                    cols=cols,
                                     path=input_path,
                                     creds=creds,
                                     options=command_options)
