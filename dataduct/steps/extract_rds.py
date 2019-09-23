@@ -28,6 +28,7 @@ class ExtractRdsStep(ETLStep):
                  host_name=None,
                  database=None,
                  output_path=None,
+                 compress_output=False,
                  **kwargs):
         """Constructor for the ExtractRdsStep class
 
@@ -95,6 +96,7 @@ class ExtractRdsStep(ETLStep):
                             "| sed 's/\\\\\\\\n/NULL/g'",  # replace \\n
                             # get rid of control characters
                             "| tr -d '\\\\000'",
+                            "" if not compress_output else "| gzip -1",
                             "> ${OUTPUT1_STAGING_DIR}/part-0"])
 
         self.create_pipeline_object(
